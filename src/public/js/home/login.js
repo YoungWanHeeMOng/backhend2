@@ -4,10 +4,6 @@ const id = document.querySelector("#id");
 const password = document.querySelector("#password");
 const loginBtn = document.querySelector("button");
 
-console.log(id);
-console.log(loginBtn)
-
-
 loginBtn.addEventListener("click", login);
 
 
