@@ -2,7 +2,7 @@
 
 const id = document.querySelector("#id");
 const password = document.querySelector("#password");
-const loginBtn = document.querySelector("button");
+const loginBtn = document.querySelector("#button");
 
 loginBtn.addEventListener("click", login);
 
@@ -23,6 +23,7 @@ function login(){
     .then((res) => res.json())
     .then((res) => {
         if (res.success){
+            console.log("Root");
             location.href = "/";
         } else {
             alert(res.msg);
