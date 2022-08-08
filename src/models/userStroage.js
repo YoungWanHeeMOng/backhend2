@@ -13,9 +13,10 @@ class UserStorage {
         }, {});
         return userInfo;
     }
-    
-    static getUsers(...fields) {
-        // const users=this.#users;
+
+    static #getUsers(data,isAll, fields){
+        const users = JSON.parse(data);
+        if(isAll) return users;
         const newUsers = fields.reduce((newUsers, field) => {
             // console.log(newUsers,field);
             if(users.hasOwnProperty(field)){
@@ -24,6 +25,17 @@ class UserStorage {
             return newUsers;
         },{});
         return newUsers;
+    }
+
+    static getUsers(isAll, ...fields) {
+        return fs
+            .readFile("./src/databases/users.json")
+            .then((data) => {
+                return this.#getUsers(data, isAll, fields);
+            })
+            .catch(console.error);
+
+     
     };
 
     static getUserInfo(id){
@@ -37,13 +49,17 @@ class UserStorage {
     }
 
    
-    static save(userInfo) {
-        // const users = this.#users;
+    static async save(userInfo) {
+        const users = await this.getUsers(true);  // "id", "password", "name"
+        if(users.id.includes(userInfo.id)){
+           throw "이미 존재하는 아이디입니다";
+        }
         users.id.push(userInfo.id);
         users.name.push(userInfo.name);
         users.password.push(userInfo.password);
-        console.log("save : " );
-        console.log(users);
+        // 데이터 추가
+        fs.writeFile("./src/databases/users.json", JSON.stringify(users));
+        return {success: true};       
     }
 }
 

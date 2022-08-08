@@ -21,16 +21,11 @@ const process = {
     login: async (req, res) => {
         const user = new User(req.body);
         const response =await user.login();
-        // console.log(response);
         return res.json(response);
     },
-    register : (req, res) => {
+    register : async (req, res) => {
         const user = new User(req.body);
-        const response = user.register();
-        console.log("proccess : " );
-        console.log(response );
-        console.log(user );
-
+        const response =await user.register();
         return res.json(response);
     },
 };
